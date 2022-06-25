@@ -4,26 +4,33 @@ import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import com.example.instagramclonecompose.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.instagramclonecompose.StoryHighlight
 
 @Composable
 fun ProfileScreen() {
@@ -34,6 +41,32 @@ fun ProfileScreen() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         ProfileSection()
+        Spacer(modifier = Modifier.height(25.dp))
+        ButtonSection(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(25.dp))
+        HighlightSection(
+            highlights = listOf(
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.story1),
+                    text = "Highlights"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.story2),
+                    text = "Liverpool"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.story3),
+                    text = "Forbidden Fruit"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.story4),
+                    text = "Gerry Cinnamon"
+                ),
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        )
     }
 }
 
@@ -61,12 +94,15 @@ fun TopBar(
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.weight(1f))
         Icon(
             painter = painterResource(id = R.drawable.ic_bell),
             contentDescription = "Back",
             tint = Color.Black,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
         )
+        Spacer(modifier = Modifier.weight(0.1f))
         Icon(
             painter = painterResource(id = R.drawable.ic_dotmenu),
             contentDescription = "Back",
@@ -186,6 +222,7 @@ fun ProfileDescription(
         )
         Text(
             text = description,
+            fontWeight = FontWeight.Normal,
             letterSpacing = letterSpacing,
             lineHeight = lineHeight
         )
@@ -225,6 +262,103 @@ fun ProfileDescription(
     }
 }
 
+@Composable
+fun ButtonSection(
+    modifier: Modifier = Modifier
+) {
+    val minWidth = 95.dp
+    val height = 30.dp
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+    ) {
+        ActionButton(
+            text = "Following",
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            text = "Message",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            text = "Email",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .size(height)
+        )
+    }
+}
+
+@Composable
+fun ActionButton(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    icon: ImageVector? = null
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(5.dp)
+            )
+            .padding(6.dp)
+    ) {
+        if (text != null) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+    }
+}
+
+@Composable
+fun HighlightSection(
+     modifier: Modifier = Modifier,
+     highlights: List<StoryHighlight>
+) {
+    LazyRow(modifier = modifier) {
+        items(highlights.size) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(end = 15.dp)
+            ) {
+                RoundImage(
+                    image = highlights[it].image,
+                    modifier = Modifier.size(70.dp)
+                )
+                Text(
+                    text = highlights[it].text,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
 
 
 
