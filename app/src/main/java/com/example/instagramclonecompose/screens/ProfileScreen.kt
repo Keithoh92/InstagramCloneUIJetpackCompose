@@ -180,7 +180,9 @@ fun ProfileSection(
         Spacer(modifier = Modifier.height(16.dp))
         ProfileDescription(
             displayName = "Android Developer",
-            description = "Gwan ya good thing, do a wheelie?",
+            description = "Currently working at Retail inMotion as an Android Developer,\n" +
+                    "Passionate and enthusiastic about my work, love to learn new things and love\n" +
+                    "to contribute in meaningful ways on awesome teams of developers",
             url = "https://www.oharekeith.com",
             followedBy = listOf("JamieD, Makr92"),
             otherCount = 20
